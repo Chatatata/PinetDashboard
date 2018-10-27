@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -15,10 +16,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 public class Controller {
     @FXML
@@ -56,15 +60,16 @@ public class Controller {
         submit();
     }
 
-    private void setDisable(boolean value) {
-        usernameField.setDisable(value);
-        passwordField.setDisable(value);
-        signInButton.setDisable(value);
-    }
-
     private void setActivityStatus(boolean value) {
         setDisable(value);
         progressIndicator.setVisible(value);
+    }
+
+    private void setDisable(boolean value) {
+        Stream.of(usernameField, passwordField, signInButton)
+            .forEach(node -> {
+                node.setDisable(value);
+            });
     }
 
     private void showActivityError() {
